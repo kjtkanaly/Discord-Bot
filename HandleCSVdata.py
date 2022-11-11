@@ -9,7 +9,7 @@ def readData(File):
 
         for row in reader:
             messages.append(row)
-            print(f'{",".join(row)}')
+            # print(f'{",".join(row)}')
 
         del messages[0]
         return messages
