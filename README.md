@@ -3,11 +3,12 @@
 ## Purpose
 Go through a Discord text channel and search for every Spotify link and then add those individual songs/albums/playlists to a master playlist. 
 
-## Modules
+## Libraries
 -	*Discord.py*
 -	*Spotipy*
 -	*CSV*
 -	*Datetime*
+-	*Plotly*
 
 
 ## Workflow
