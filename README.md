@@ -1,7 +1,7 @@
 # Discord Music Bot: OwO
 
 ## Purpose
-Go through a Discord text channel and search for every Spotify link and then add those songs/albums/playlists to a master playlist. 
+Go through a Discord text channel and search for every Spotify link and then add those individual songs/albums/playlists to a master playlist. 
 
 ## Modules
 -	*Discord.py*
