@@ -20,3 +20,15 @@ The second phase utilizes the Spotify API to add the tracks/albums/playlists to 
 URI Example
 -	LINK: https://open.spotify.com/track/5lXNcc8QeM9KpAWNHAL0iS?si=a64fc4b428be4e0e
 -	URI: 5lXNcc8QeM9KpAWNHAL0iS
+
+## Results
+
+### Playlist
+- [Loser Bar Jams](https://open.spotify.com/playlist/3gO4hYyClvG858lBveOkyh?si=cd1fb5a59fc84203)
+
+### Statistics
+In additon to the playlist, I can also see a breakdown of spotify links per user,
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/54219067/201409390-13ec3a30-35f6-4d46-a103-d8692933a0ad.png" width="750">
+</p>
