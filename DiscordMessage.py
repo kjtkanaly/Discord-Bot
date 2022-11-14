@@ -8,7 +8,8 @@ def ParseMessagesForURLS(DiscordMessages, URL_Tag):
     for message in DiscordMessages:
 
         # Discord Info
-        authorName = message.author.name
+        messageID   = message.id
+        authorName  = message.author.name
         dateCreated = message.created_at.strftime("%m/%d/%Y - %H:%M:%S")
 
         # Spotify Link Info
@@ -22,7 +23,7 @@ def ParseMessagesForURLS(DiscordMessages, URL_Tag):
         LinkType    = ChoppedLink[0]
         
 
-        log = (authorName + "," + dateCreated + "," + 
+        log = (str(messageID) + "," + authorName + "," + dateCreated + "," + 
                 LinkType + "," + (URL_Tag + Link))
 
         MessageData.append(log)

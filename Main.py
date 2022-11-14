@@ -17,7 +17,7 @@ from ConfigHandler import *
 ### Get Discord/Spotify Account Info from the Config File
 ###########################################################
 ConfigFile          = 'config.txt'
-DiscordLinksFile    = 'LoserBarMusic.csv'
+DiscordLinksFile    = 'Test.csv'
 
 DiscordToken        = GrabConfigValue('DISCORD_ID', ConfigFile)
 
@@ -72,10 +72,9 @@ async def GatherSpotifyLinks(ctx):
         totalMessageCount += 1
         if ("https://open.spotify.com/" in message.content):
             message.content = remove_emoji(message.content)
-
-            print(message.content)
-
             SpotifyMessages.append(message)
+
+            #print(message.content)
 
     print("Done Collecting!")
     print(f"{totalMessageCount} messages searched")
@@ -96,11 +95,38 @@ async def UpdatePlaylist(ctx):
     commandMessage = [channel.last_message]
     await channel.delete_messages(commandMessage)
 
-    # First Grab the top link in the database
+    # Grab the last message logged
+    MostRecentLog = getTopRow(DiscordLinksFile)
+    LastMessage   = await channel.fetch_message(int(MostRecentLog[0]))
 
-    # Iterate through the discord messages until you find that link
+    # Collect the New Messages
+    NewSpotifyMessages = []
+    totalMessageCount = 0
 
-    # Once you find it 
+    print("Collecting Messages...")
+
+    async for message in channel.history(limit = None, after = LastMessage):
+        totalMessageCount += 1
+
+        if ("https://open.spotify.com/" in message.content):
+            message.content = remove_emoji(message.content)
+            NewSpotifyMessages.append(message)
+
+    print("Done Collecting!")
+    print(f"{totalMessageCount} new messages searched")
+    print(f"{len(NewSpotifyMessages)} new spotify links found!")
+
+    # Extract the URL from each message
+    LinkLogs = ParseMessagesForURLS(NewSpotifyMessages,"https://open.spotify.com/")
+    LinkLogs.reverse()
+
+    for log in LinkLogs:
+        print(log)
+
+    # Update the database with the new link logs
+    #updateCSV(LinkLogs, DiscordLinksFile)
+
+    print('Playlist has been updated')
 
 
 @bot.command()
