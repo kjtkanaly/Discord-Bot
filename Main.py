@@ -89,9 +89,22 @@ async def GatherSpotifyLinks(ctx):
 
     print('All links have been logged!!!')
 
+@bot.command()
+async def UpdatePlaylist(ctx):
+    channel = ctx.channel
+
+    commandMessage = [channel.last_message]
+    await channel.delete_messages(commandMessage)
+
+    # First Grab the top link in the database
+
+    # Iterate through the discord messages until you find that link
+
+    # Once you find it 
+
 
 @bot.command()
-async def UpdateSpotifyPlaylist(ctx):
+async def AddDataBaseToPlaylist(ctx):
     channel = ctx.channel
 
     commandMessage = [channel.last_message]
