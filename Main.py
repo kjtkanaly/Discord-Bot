@@ -145,7 +145,10 @@ async def UpdatePlaylist(ctx):
     URIS = ExtractSpotifyURI(URLS)
 
     # Add the Tracks/Albums/Playlists to the Master Playlist
-    Tracks = CompileTrackURIS(sp, URIS, LinkTypes)
+    URI_Count = 0
+    for URI in URIS:
+        Tracks = CompileTrackURIS(sp, URIS, LinkTypes)
+        URI_Count += 1
 
     print(f'{len(Tracks)} Total Songs!!!')
     print(f'Uploading...')
