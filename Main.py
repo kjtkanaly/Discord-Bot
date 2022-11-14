@@ -118,16 +118,43 @@ async def UpdatePlaylist(ctx):
 
     # Extract the URL from each message
     LinkLogs = ParseMessagesForURLS(NewSpotifyMessages,"https://open.spotify.com/")
-    LinkLogs.reverse()
 
     for log in LinkLogs:
         print(log)
 
     # Update the database with the new link logs
-    #updateCSV(LinkLogs, DiscordLinksFile)
+    # updateCSV(LinkLogs, DiscordLinksFile)
+
+    # Add the new tracks to the playlist
+    SpotifyToken  = util.prompt_for_user_token(SpotifyUsername, SpotifyScope, SpotifyClientID, 
+                    SpotifyClientSecret, SpotifyRedirectURI, cache_path=f"__pycache__/.cache-{SpotifyUsername}")
+
+    sp           = spotipy.Spotify(auth=SpotifyToken)
+
+    print("Spotify: signed in as: " + sp.me()['display_name'])
+
+    # Grab the Link types and URLs from the logs
+    URLS = []
+    LinkTypes = []
+    for row in LinkLogs:
+        Split = row.split(",")
+        URLS.append(Split[4])
+        LinkTypes.append(Split[3])
+
+    # Grab the URIs from the URLs
+    URIS = ExtractSpotifyURI(URLS)
+
+    # Add the Tracks/Albums/Playlists to the Master Playlist
+    Tracks = CompileTrackURIS(sp, URIS, LinkTypes)
+
+    print(f'{len(Tracks)} Total Songs!!!')
+    print(f'Uploading...')
+
+    for Track in Tracks:
+        Input = [Track]
+        sp.user_playlist_add_tracks(SpotifyUsername, SpotifyPlaylist, Input,position=0)
 
     print('Playlist has been updated')
-
 
 @bot.command()
 async def AddDataBaseToPlaylist(ctx):
@@ -145,13 +172,13 @@ async def AddDataBaseToPlaylist(ctx):
 
     # Read in Discord link logs
     Messages = readData(DiscordLinksFile)
-    URLS = []
-    LinkTypes = []
 
     # Grab the Link types and URLs from the logs
+    URLS = []
+    LinkTypes = []
     for row in Messages:
-        URLS.append(row[3])
-        LinkTypes.append(row[2])
+        URLS.append(row[4])
+        LinkTypes.append(row[3])
 
     # Grab the URIs from the URLs
     URIS = ExtractSpotifyURI(URLS)
