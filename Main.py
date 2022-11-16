@@ -17,7 +17,7 @@ from ConfigHandler import *
 ### Get Discord/Spotify Account Info from the Config File
 ###########################################################
 ConfigFile          = 'config.txt'
-DiscordLinksFile    = 'Test.csv'
+DiscordLinksFile    = 'LoserBarMusic.csv'
 
 DiscordToken        = GrabConfigValue('DISCORD_ID', ConfigFile)
 
@@ -123,7 +123,7 @@ async def UpdatePlaylist(ctx):
         print(log)
 
     # Update the database with the new link logs
-    # updateCSV(LinkLogs, DiscordLinksFile)
+    updateCSV(LinkLogs, DiscordLinksFile)
 
     # Add the new tracks to the playlist
     SpotifyToken  = util.prompt_for_user_token(SpotifyUsername, SpotifyScope, SpotifyClientID, 
@@ -145,18 +145,12 @@ async def UpdatePlaylist(ctx):
     URIS = ExtractSpotifyURI(URLS)
 
     # Add the Tracks/Albums/Playlists to the Master Playlist
-    URI_Count = 0
-    for URI in URIS:
-        Tracks = CompileTrackURIS(sp, URIS, LinkTypes)
-        URI_Count += 1
-
-    print(f'{len(Tracks)} Total Songs!!!')
     print(f'Uploading...')
-
-    for Track in Tracks:
-        Input = [Track]
-        sp.user_playlist_add_tracks(SpotifyUsername, SpotifyPlaylist, Input,position=0)
-
+    for i in range(0,len(LinkTypes)):
+        Input = CompileTrackURIS(sp, [URIS[i]], [LinkTypes[i]])
+        if len(Input) != 0:
+            print(Input)
+            sp.user_playlist_add_tracks(SpotifyUsername, SpotifyPlaylist, Input, position=0)
     print('Playlist has been updated')
 
 @bot.command()

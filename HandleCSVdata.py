@@ -27,7 +27,7 @@ def updateCSV(logs, File):
     for log in logs:
         Content.insert(1, log + "\n")
 
-    with open("Test.csv","w") as csv_file:
+    with open(File,"w") as csv_file:
         for row in Content:
             csv_file.write(row)
 
